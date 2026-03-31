@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Dobierz okulary – KODANO Optyk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --ink:#212529;--ink2:#343a40;
+      --or:#E7511E;--or2:#C94218;--olt:#FDF0EB;--omid:#F9D5C5;
+      --wh:#fff;--bg:#F5F4F2;
+      --bd:#E2E2DE;--bd2:#C8C8C2;
+      --mu:#6B6B65;--hi:#9A9A93;
+      --gr:#2B7A4B;--grlt:#EBF7F1;--grmid:#C3E8D5;
+      --r:12px;--rs:8px;--rx:6px;
+      --sh:0 2px 20px rgba(33,37,41,.08);
+      --tr:.16s cubic-bezier(.4,0,.2,1);
+    }
+    html{font-size:16px;-webkit-font-smoothing:antialiased}
+    body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:1.75rem 1rem 3.5rem}
+
+    /* header */
+    .ph{width:100%;max-width:700px;display:flex;align-items:center;gap:12px;margin-bottom:1.5rem}
+    .lm{display:flex;align-items:center;text-decoration:none}
+    .lk{background:var(--ink);color:#fff;font-size:14px;font-weight:700;letter-spacing:.05em;padding:5px 11px;border-radius:var(--rx)}
+    .lo{font-size:11px;font-weight:600;color:var(--mu);letter-spacing:.06em;text-transform:uppercase;margin-left:9px}
+    .hs{width:1px;height:18px;background:var(--bd)}
+    .ht{font-size:12px;color:var(--hi);font-weight:500}
+
+    /* card */
+    .card{background:var(--wh);border-radius:16px;border:1px solid var(--bd);box-shadow:var(--sh);width:100%;max-width:700px;padding:2.25rem 2.25rem 1.75rem;position:relative;overflow:hidden}
+    .card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--or)}
+
+    /* progress */
+    .pr{display:flex;align-items:center;gap:10px;margin-bottom:2rem}
+    .pt{flex:1;height:4px;background:var(--bd);border-radius:99px;overflow:hidden}
+    .pf{height:100%;border-radius:99px;background:var(--or);transition:width .4s cubic-bezier(.4,0,.2,1)}
+    .ptx{font-size:12px;font-weight:600;color:var(--hi);white-space:nowrap;min-width:36px;text-align:right}
+
+    /* step */
+    .step{animation:fu .25s ease both}
+    @keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    .ey{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--or);background:var(--olt);padding:3px 9px;border-radius:99px;margin-bottom:.65rem}
+    .sq{font-size:22px;font-weight:700;color:var(--ink);line-height:1.25;margin-bottom:.35rem}
+    .ss{font-size:14px;color:var(--mu);line-height:1.6;margin-bottom:1.4rem}
+    .mb{display:inline-block;font-size:11px;font-weight:600;color:var(--mu);border:1px solid var(--bd2);padding:3px 10px;border-radius:99px;margin-bottom:1rem}
+
+    /* options */
+    .opts{display:grid;gap:9px}
+    .opts.c2{grid-template-columns:repeat(2,1fr)}
+    .opts.c3{grid-template-columns:repeat(3,1fr)}
+    .opt{border:1.5px solid var(--bd);border-radius:var(--r);background:var(--wh);padding:15px 12px 13px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;transition:border-color var(--tr),background var(--tr),transform var(--tr),box-shadow var(--tr);-webkit-tap-highlight-color:transparent;outline:none;font-family:inherit}
+    .opt:hover{border-color:var(--or);background:var(--olt);transform:translateY(-1px);box-shadow:0 1px 6px rgba(33,37,41,.06)}
+    .opt:active{transform:none}
+    .opt.sel{border-color:var(--or);border-width:2px;background:var(--olt);box-shadow:0 0 0 3px rgba(231,81,30,.10)}
+    .opt.sel .ol{color:var(--or2)}
+    .ov{height:52px;display:flex;align-items:center;justify-content:center;width:100%}
+    .ol{font-size:13px;font-weight:700;color:var(--ink);line-height:1.2}
+    .od{font-size:11px;color:var(--mu);line-height:1.4}
+
+    /* nav */
+    .nav{display:flex;align-items:center;justify-content:space-between;margin-top:1.75rem;padding-top:1.25rem;border-top:1px solid var(--bd)}
+    .bb{font-size:13px;font-weight:500;color:var(--mu);background:none;border:none;cursor:pointer;font-family:inherit;padding:8px 2px;transition:color var(--tr)}
+    .bb:hover{color:var(--ink)}
+    .bn{display:inline-flex;align-items:center;gap:6px;background:var(--or);color:#fff;border:none;border-radius:var(--rs);font-size:14px;font-weight:700;font-family:inherit;padding:11px 26px;cursor:pointer;transition:background var(--tr),transform var(--tr),opacity var(--tr)}
+    .bn:hover:not(:disabled){background:var(--or2);transform:translateY(-1px)}
+    .bn:active:not(:disabled){transform:none}
+    .bn:disabled{opacity:.3;cursor:not-allowed}
+
+    /* result */
+    .res{animation:fu .3s ease both}
+    .rh{background:var(--ink);border-radius:12px;padding:1.75rem 1.5rem;color:#fff;text-align:center;margin-bottom:.9rem}
+    .re{font-size:40px;margin-bottom:.65rem}
+    .rt{font-size:24px;font-weight:700;margin-bottom:.4rem}
+    .rs{font-size:14px;color:#A8ADB5;line-height:1.6;max-width:440px;margin:0 auto 1.4rem}
+    .rtags{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin-bottom:1.5rem}
+    .rtag{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#fff;font-size:12px;font-weight:500;padding:4px 12px;border-radius:99px}
+    .cta{display:inline-flex;align-items:center;gap:8px;background:var(--or);color:#fff;padding:13px 30px;border-radius:var(--rs);font-size:15px;font-weight:700;font-family:inherit;text-decoration:none;border:none;cursor:pointer;transition:background var(--tr),transform var(--tr)}
+    .cta:hover{background:var(--or2);transform:translateY(-1px)}
+
+    /* lens recommendation card */
+    .lens-card{border:1px solid var(--grmid);border-radius:var(--r);background:var(--grlt);padding:1.25rem 1.5rem;margin-bottom:.9rem}
+    .lens-title{font-size:13px;font-weight:700;color:var(--gr);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.75rem;display:flex;align-items:center;gap:6px}
+    .lens-items{display:flex;flex-direction:column;gap:.6rem}
+    .lens-item{display:flex;align-items:flex-start;gap:10px}
+    .lens-dot{width:8px;height:8px;border-radius:50%;background:var(--gr);flex-shrink:0;margin-top:5px}
+    .lens-text{font-size:13px;color:var(--ink);line-height:1.5}
+    .lens-text strong{font-weight:600;color:var(--ink2)}
+    .lens-text a{color:var(--or);text-decoration:none;font-weight:600}
+    .lens-text a:hover{text-decoration:underline}
+
+    /* color swatch options */
+    .opts.color-grid{grid-template-columns:repeat(5,1fr);gap:8px}
+    .opt.color-opt{padding:12px 8px 11px;gap:6px}
+    .swatch{width:36px;height:36px;border-radius:50%;flex-shrink:0;border:2px solid rgba(0,0,0,.06)}
+    .opt.sel .swatch{box-shadow:0 0 0 3px var(--or)}
+
+    /* frame hint card on result */
+    .frame-card{border:1px solid var(--omid);border-radius:var(--r);background:var(--olt);padding:1.25rem 1.5rem;margin-bottom:.9rem}
+    .frame-title{font-size:13px;font-weight:700;color:var(--or2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.6rem;display:flex;align-items:center;gap:6px}
+    .frame-body{font-size:13px;color:var(--ink);line-height:1.6}
+    .frame-body strong{font-weight:600}
+
+    .br{width:100%;background:none;border:1.5px solid var(--bd);color:var(--mu);font-size:13px;font-family:inherit;font-weight:500;border-radius:var(--rs);padding:10px;cursor:pointer;margin-top:.75rem;transition:border-color var(--tr),color var(--tr)}
+    .br:hover{border-color:var(--ink);color:var(--ink)}
+    .fn{margin-top:1.25rem;font-size:11px;color:var(--hi);text-align:center}
+    .fn a{color:var(--or);text-decoration:none}
+    .fn a:hover{text-decoration:underline}
+
+    @media(max-width:540px){
+      body{padding:1rem .75rem 2.5rem}
+      .card{padding:1.5rem 1.1rem 1.25rem;border-radius:12px}
+      .sq{font-size:19px}
+      .opts.c3{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:360px){.opts.c2,.opts.c3{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+<header class="ph">
+  <a class="lm" href="https://kodano.pl" target="_blank" rel="noopener">
+    <span class="lk">KODANO</span><span class="lo">Optyk</span>
+  </a>
+  <div class="hs"></div>
+  <span class="ht">Dobierz okulary</span>
+</header>
+
+<div class="card">
+  <div class="pr">
+    <div class="pt"><div class="pf" id="pbar" style="width:0%"></div></div>
+    <div class="ptx" id="ptx">0 / 6</div>
+  </div>
+  <div id="sc"></div>
+</div>
+<p class="fn">Wyniki otworzą się w <a href="https://kodano.pl/okulary-korekcyjne.html" target="_blank" rel="noopener">Kodano.pl</a>.</p>
+
+<script>
+/* ── SVG assets ── */
+const G = {
+  female:`<svg width="54" height="52" viewBox="0 0 54 52" fill="none"><circle cx="27" cy="19" r="12" fill="#FDF0EB" stroke="#E7511E" stroke-width="1.6"/><path d="M11 46c0-8.837 7.163-16 16-16s16 7.163 16 16" stroke="#E7511E" stroke-width="1.6" stroke-linecap="round"/><path d="M22 7 Q27 2 32 7" stroke="#E7511E" stroke-width="1.4" stroke-linecap="round" fill="none"/><path d="M19 9 Q14 8 13 12" stroke="#E7511E" stroke-width="1.3" stroke-linecap="round" fill="none"/><path d="M35 9 Q40 8 41 12" stroke="#E7511E" stroke-width="1.3" stroke-linecap="round" fill="none"/><circle cx="22" cy="19" r="1.5" fill="#E7511E"/><circle cx="32" cy="19" r="1.5" fill="#E7511E"/><path d="M24 24 Q27 27 30 24" stroke="#E7511E" stroke-width="1.2" stroke-linecap="round" fill="none"/></svg>`,
+  male:`<svg width="54" height="52" viewBox="0 0 54 52" fill="none"><circle cx="27" cy="19" r="12" fill="#F1F1EF" stroke="#212529" stroke-width="1.6"/><path d="M11 46c0-8.837 7.163-16 16-16s16 7.163 16 16" stroke="#212529" stroke-width="1.6" stroke-linecap="round"/><rect x="20" y="5" width="14" height="6" rx="3" fill="#212529"/><circle cx="22" cy="19" r="1.5" fill="#212529"/><circle cx="32" cy="19" r="1.5" fill="#212529"/><path d="M24 24 Q27 27 30 24" stroke="#212529" stroke-width="1.2" stroke-linecap="round" fill="none"/></svg>`,
+  unisex:`<svg width="58" height="50" viewBox="0 0 58 50" fill="none"><circle cx="19" cy="21" r="10" fill="#FDF0EB" stroke="#E7511E" stroke-width="1.5"/><circle cx="39" cy="21" r="10" fill="#F1F1EF" stroke="#212529" stroke-width="1.5"/><path d="M7 44c0-6.627 5.373-12 12-12" stroke="#E7511E" stroke-width="1.5" stroke-linecap="round"/><path d="M51 44c0-6.627-5.373-12-12-12" stroke="#212529" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+  kids:`<svg width="54" height="52" viewBox="0 0 54 52" fill="none"><circle cx="27" cy="21" r="11" fill="#FDF0EB" stroke="#E7511E" stroke-width="1.6"/><path d="M13 46c0-7.732 6.268-14 14-14s14 6.268 14 14" stroke="#E7511E" stroke-width="1.6" stroke-linecap="round"/><path d="M21 11 Q27 5 33 11" stroke="#E7511E" stroke-width="1.4" stroke-linecap="round" fill="none"/><circle cx="23" cy="21" r="1.5" fill="#E7511E"/><circle cx="31" cy="21" r="1.5" fill="#E7511E"/><path d="M24 26 Q27 29 30 26" stroke="#E7511E" stroke-width="1.2" stroke-linecap="round" fill="none"/></svg>`,
+  comp:`<svg width="54" height="46" viewBox="0 0 54 46" fill="none"><rect x="5" y="4" width="44" height="28" rx="4" fill="#FDF0EB" stroke="#E7511E" stroke-width="1.5"/><rect x="8" y="7" width="38" height="22" rx="2" fill="#F9D5C5"/><path d="M13 20 L19 14 L24 20 L29 16 L36 21 L41 17" stroke="#E7511E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><line x1="21" y1="32" x2="33" y2="32" stroke="#E7511E" stroke-width="1.5"/><rect x="23" y="32" width="8" height="5" rx="1" fill="#F9D5C5"/></svg>`,
+  car:`<svg width="56" height="46" viewBox="0 0 56 46" fill="none"><path d="M6 30 L11 18 L17 13 L39 13 L45 18 L50 30 L50 37 L6 37Z" fill="#FDF0EB" stroke="#E7511E" stroke-width="1.5" stroke-linejoin="round"/><circle cx="15" cy="37" r="6" fill="#F1F1EF" stroke="#212529" stroke-width="1.5"/><circle cx="41" cy="37" r="6" fill="#F1F1EF" stroke="#212529" stroke-width="1.5"/><rect x="17" y="15" width="9" height="8" rx="1.5" fill="#F9D5C5"/><rect x="30" y="15" width="9" height="8" rx="1.5" fill="#F9D5C5"/></svg>`,
+  sport:`<svg width="54" height="46" viewBox="0 0 54 46" fill="none"><path d="M8 22 Q8 12 27 12 Q46 12 46 22 Q46 32 27 32 Q8 32 8 22Z" fill="#FDF0EB" stroke="#E7511E" stroke-width="1.5"/><path d="M8 22 Q27 28 46 22" stroke="#E7511E" stroke-width="1" stroke-dasharray="3 2" opacity=".5"/><line x1="0" y1="22" x2="8" y2="22" stroke="#E7511E" stroke-width="1.5" stroke-linecap="round"/><line x1="46" y1="22" x2="54" y2="22" stroke="#E7511E" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+  daily:`<svg width="52" height="46" viewBox="0 0 52 46" fill="none"><circle cx="26" cy="19" r="11" fill="#FDF0EB" stroke="#E7511E" stroke-width="1.5"/><path d="M11 40c0-8.284 6.716-15 15-15s15 6.716 15 15" stroke="#E7511E" stroke-width="1.5" stroke-linecap="round"/><line x1="26" y1="4" x2="26" y2="2" stroke="#E7511E" stroke-width="1.3" stroke-linecap="round"/><line x1="30" y1="6" x2="32" y2="4" stroke="#E7511E" stroke-width="1.3" stroke-linecap="round"/><line x1="22" y1="6" x2="20" y2="4" stroke="#E7511E" stroke-width="1.3" stroke-linecap="round"/></svg>`,
+  near:`<svg width="52" height="46" viewBox="0 0 52 46" fill="none"><rect x="4" y="7" width="44" height="32" rx="4" fill="#FDF0EB" stroke="#E7511E" stroke-width="1.5"/><line x1="10" y1="17" x2="42" y2="17" stroke="#E7511E" stroke-width="1.2" stroke-linecap="round" opacity=".5"/><line x1="10" y1="23" x2="42" y2="23" stroke="#E7511E" stroke-width="1.2" stroke-linecap="round" opacity=".5"/><line x1="10" y1="29" x2="42" y2="29" stroke="#E7511E" stroke-width="1.2" stroke-linecap="round" opacity=".5"/><circle cx="42" cy="7" r="3" fill="#E7511E"/></svg>`,
+  both:`<svg width="58" height="46" viewBox="0 0 58 46" fill="none"><rect x="4" y="6" width="22" height="16" rx="3" fill="#FDF0EB" stroke="#E7511E" stroke-width="1.4"/><line x1="7" y1="11" x2="23" y2="11" stroke="#E7511E" stroke-width="1" stroke-linecap="round" opacity=".5"/><line x1="7" y1="15" x2="23" y2="15" stroke="#E7511E" stroke-width="1" stroke-linecap="round" opacity=".5"/><path d="M32 14 L48 7 L54 38 L38 38 L32 14Z" fill="#F1F1EF" stroke="#212529" stroke-width="1.4" stroke-linejoin="round"/><circle cx="43" cy="24" r="2" fill="#212529" opacity=".4"/><circle cx="43" cy="30" r="2" fill="#212529" opacity=".4"/></svg>`,
+  shield:`<svg width="52" height="46" viewBox="0 0 52 46" fill="none"><path d="M26 4 L44 12 L44 26 Q44 36 26 44 Q8 36 8 26 L8 12 Z" fill="#FDF0EB" stroke="#E7511E" stroke-width="1.5" stroke-linejoin="round"/><path d="M18 24 L23 29 L34 18" stroke="#E7511E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  b100:`<svg width="52" height="46" viewBox="0 0 52 46" fill="none"><rect x="4" y="8" width="44" height="30" rx="6" fill="#EBF7F1" stroke="#2B7A4B" stroke-width="1.4"/><text x="26" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#2B7A4B" font-family="sans-serif">100</text><text x="26" y="10" text-anchor="middle" font-size="7" fill="#2B7A4B" font-family="sans-serif">do</text></svg>`,
+  b250:`<svg width="52" height="46" viewBox="0 0 52 46" fill="none"><rect x="4" y="8" width="44" height="30" rx="6" fill="#EBF7F1" stroke="#2B7A4B" stroke-width="1.4"/><text x="26" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#2B7A4B" font-family="sans-serif">250</text><text x="26" y="10" text-anchor="middle" font-size="7" fill="#2B7A4B" font-family="sans-serif">do</text></svg>`,
+  b500:`<svg width="52" height="46" viewBox="0 0 52 46" fill="none"><rect x="4" y="8" width="44" height="30" rx="6" fill="#FDF0EB" stroke="#E7511E" stroke-width="1.4"/><text x="26" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#E7511E" font-family="sans-serif">500</text><text x="26" y="10" text-anchor="middle" font-size="7" fill="#E7511E" font-family="sans-serif">do</text></svg>`,
+  b500p:`<svg width="52" height="46" viewBox="0 0 52 46" fill="none"><rect x="4" y="8" width="44" height="30" rx="6" fill="#212529" stroke="#212529" stroke-width="1.4"/><text x="26" y="29" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="sans-serif">500+</text><text x="26" y="10" text-anchor="middle" font-size="7" fill="#9A9A93" font-family="sans-serif">powyżej</text></svg>`,
+};
+
+/* ═══════════════════════════════════════════════
+   QUIZ STEPS — zredukowane do 4 pytań
+   Usunięto: kształt twarzy (brak mapowania na URL)
+             materiał (brak mapowania na URL)
+   Pozostało: kto > zastosowanie > wada wzroku > budżet
+═══════════════════════════════════════════════ */
+const STEPS = [
+
+  /* 1. Dla kogo */
+  {
+    id:'plec', ey:'Krok 1 z 6',
+    q:'Dla kogo szukamy okularów?',
+    sub:'Zaczynamy od podstaw — to pozwoli nam od razu trafić w odpowiednią kolekcję.',
+    multi:false, cols:'c2',
+    opts:[
+      {v:'damskie', l:'Dla niej',       d:'Kolekcja damska i unisex', svg:G.female},
+      {v:'meskie',  l:'Dla niego',      d:'Kolekcja męska i unisex',  svg:G.male},
+      {v:'unisex',  l:'Wszystkie',      d:'Pełna kolekcja',           svg:`<svg width="58" height="52" viewBox="0 0 58 52" fill="none"><circle cx="14" cy="22" r="10" fill="#FDF0EB" stroke="#E7511E" stroke-width="1.5"/><circle cx="44" cy="22" r="10" fill="#F1F1EF" stroke="#212529" stroke-width="1.5"/><path d="M2 44c0-6.627 5.373-12 12-12" stroke="#E7511E" stroke-width="1.5" stroke-linecap="round"/><path d="M56 44c0-6.627-5.373-12-12-12" stroke="#212529" stroke-width="1.5" stroke-linecap="round"/><path d="M24 22 L34 22" stroke="#9A9A93" stroke-width="1.2" stroke-linecap="round"/><circle cx="14" cy="19" r="1.3" fill="#E7511E"/><circle cx="20" cy="19" r="1.3" fill="#E7511E"/><circle cx="38" cy="19" r="1.3" fill="#212529"/><circle cx="44" cy="19" r="1.3" fill="#212529"/><path d="M12 25 Q14 27 16 25" stroke="#E7511E" stroke-width="1.1" stroke-linecap="round" fill="none"/><path d="M42 25 Q44 27 46 25" stroke="#212529" stroke-width="1.1" stroke-linecap="round" fill="none"/></svg>`},
+      {v:'dzieci',  l:'Dla dziecka',    d:'Bezpieczne, kolorowe',     svg:G.kids},
+    ]
+  },
+
+  /* 2. Zastosowanie — multi, dla doboru soczewek */
+  {
+    id:'zast', ey:'Krok 2 z 6',
+    q:'Kiedy głównie będziesz je nosić?',
+    sub:'Możesz wybrać kilka — pomaga nam dobrać odpowiednie soczewki.',
+    multi:true, cols:'c2',
+    opts:[
+      {v:'caly_dzien', l:'Cały dzień',        d:'Na co dzień',                        svg:G.daily},
+      {v:'komputer',   l:'Praca przy ekranie', d:'Biuro, laptop, telefon',             svg:G.comp},
+      {v:'kierowca',   l:'Jazda samochodem',   d:'Długie trasy i codzienne dojazdy',   svg:G.car},
+      {v:'czytanie',   l:'Czytanie / bliż',    d:'Książki, gazety, dokumenty',         svg:G.near},
+      {v:'dal_i_bliz', l:'Dal i bliż',         d:'Różne odległości w ciągu dnia',      svg:G.both},
+      {v:'sport',      l:'Sport / aktywność',  d:'Ruch, outdoors, siłownia',           svg:G.sport},
+    ]
+  },
+
+  /* 3. Kształt oprawki */
+  {
+    id:'ksztalt', ey:'Krok 3 z 6',
+    q:'Jaki styl oprawek najbardziej Cię kręci?',
+    sub:'Możesz wybrać kilka. Użyjemy tego jako wskazówki na ekranie wyników.',
+    multi:true, cols:'c3',
+    opts:[
+      {v:'prostokat', l:'Prostokątne', d:'Klasyczne, biznesowe',   svg:`<svg width="96" height="44" viewBox="0 0 96 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- left lens -->
+  <rect x="4" y="10" width="34" height="22" rx="3" fill="#FDF0EB" stroke="#E7511E" stroke-width="2"/>
+  <!-- right lens -->
+  <rect x="58" y="10" width="34" height="22" rx="3" fill="#FDF0EB" stroke="#E7511E" stroke-width="2"/>
+  <!-- bridge -->
+  <path d="M38 19 Q48 15 58 19" stroke="#E7511E" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <!-- left temple -->
+  <path d="M4 18 Q0 18 0 22" stroke="#E7511E" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <!-- right temple -->
+  <path d="M92 18 Q96 18 96 22" stroke="#E7511E" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <!-- nose pads -->
+  <line x1="34" y1="19" x2="38" y2="20" stroke="#E7511E" stroke-width="1.2" stroke-linecap="round"/>
+  <line x1="62" y1="20" x2="58" y2="19" stroke="#E7511E" stroke-width="1.2" stroke-linecap="round"/>
+</svg>`},
+      {v:'okragle',   l:'Okrągłe',    d:'Retro, Lennon style',    svg:`<svg width="96" height="44" viewBox="0 0 96 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- left lens -->
+  <circle cx="21" cy="22" r="17" fill="#FDF0EB" stroke="#E7511E" stroke-width="2"/>
+  <!-- right lens -->
+  <circle cx="75" cy="22" r="17" fill="#FDF0EB" stroke="#E7511E" stroke-width="2"/>
+  <!-- bridge -->
+  <path d="M38 20 Q48 16 58 20" stroke="#E7511E" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <!-- left temple -->
+  <path d="M4 18 Q0 18 0 22" stroke="#E7511E" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <!-- right temple -->
+  <path d="M92 18 Q96 18 96 22" stroke="#E7511E" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <!-- nose pads -->
+  <line x1="37" y1="20" x2="38" y2="21" stroke="#E7511E" stroke-width="1.2" stroke-linecap="round"/>
+  <line x1="59" y1="21" x2="58" y2="20" stroke="#E7511E" stroke-width="1.2" stroke-linecap="round"/>
+</svg>`},
+      {v:'owalne',    l:'Owalne',     d:'Miękkie, uniwersalne',   svg:`<svg width="96" height="44" viewBox="0 0 96 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- left lens — wider than tall -->
+  <ellipse cx="21" cy="22" rx="18" ry="13" fill="#FDF0EB" stroke="#E7511E" stroke-width="2"/>
+  <!-- right lens -->
+  <ellipse cx="75" cy="22" rx="18" ry="13" fill="#FDF0EB" stroke="#E7511E" stroke-width="2"/>
+  <!-- bridge -->
+  <path d="M39 20 Q48 16 57 20" stroke="#E7511E" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <!-- left temple -->
+  <path d="M3 19 Q0 19 0 23" stroke="#E7511E" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <!-- right temple -->
+  <path d="M93 19 Q96 19 96 23" stroke="#E7511E" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <!-- nose pads -->
+  <line x1="38" y1="20" x2="39" y2="21" stroke="#E7511E" stroke-width="1.2" stroke-linecap="round"/>
+  <line x1="57" y1="21" x2="58" y2="20" stroke="#E7511E" stroke-width="1.2" stroke-linecap="round"/>
+</svg>`},
+      {v:'kocie',     l:'Kocie oczy', d:'Wyrazista kobiecość',    svg:`<svg width="96" height="46" viewBox="0 0 96 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- left lens: rounded bottom, sharp lifted outer-top corner -->
+  <path d="M4 26 Q4 13 14 10 Q24 8 34 11 Q38 13 37 24 Q36 34 22 36 Q8 37 4 26Z" fill="#FDF0EB" stroke="#E7511E" stroke-width="2.2" stroke-linejoin="round"/>
+  <!-- right lens -->
+  <path d="M59 11 Q68 8 82 10 Q92 13 92 26 Q88 37 74 36 Q60 34 59 24 Q58 13 59 11Z" fill="#FDF0EB" stroke="#E7511E" stroke-width="2.2" stroke-linejoin="round"/>
+  <!-- bridge -->
+  <path d="M37 19 Q48 16 59 19" stroke="#E7511E" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- left temple — exits from lifted outer corner -->
+  <path d="M4 18 Q0 15 0 19" stroke="#E7511E" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+  <!-- right temple -->
+  <path d="M92 18 Q96 15 96 19" stroke="#E7511E" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+</svg>`},
+      {v:'aviator',   l:'Aviator',    d:'Lotnicze, ponadczasowe', svg:`<svg width="96" height="54" viewBox="0 0 96 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- left lens: teardrop — flat top, wide rounded bottom -->
+  <path d="M4 16 Q4 8 14 8 Q23 8 36 14 Q39 21 36 35 Q30 48 16 47 Q4 45 4 32 Z" fill="#FDF0EB" stroke="#E7511E" stroke-width="1.8" stroke-linejoin="round"/>
+  <!-- right lens -->
+  <path d="M60 14 Q73 8 82 8 Q92 8 92 16 L92 32 Q92 45 80 47 Q66 48 60 35 Q57 21 60 14 Z" fill="#FDF0EB" stroke="#E7511E" stroke-width="1.8" stroke-linejoin="round"/>
+  <!-- double bridge upper -->
+  <path d="M36 13 Q48 9 60 13" stroke="#E7511E" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <!-- double bridge lower -->
+  <path d="M36 18 Q48 14 60 18" stroke="#E7511E" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+  <!-- left temple -->
+  <path d="M4 18 Q0 18 0 22" stroke="#E7511E" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  <!-- right temple -->
+  <path d="M92 18 Q96 18 96 22" stroke="#E7511E" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+</svg>`},
+      {v:'wayfarer',  l:'Wayfarer',   d:'Casualowe, kultowe',     svg:`<svg width="96" height="48" viewBox="0 0 96 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- left lens: thick frame, slightly wider top, rounded bottom corners -->
+  <path d="M2 14 Q2 9 8 9 L36 9 Q40 9 40 14 L40 30 Q40 38 24 38 Q6 38 4 30 Z" fill="#FDF0EB" stroke="#E7511E" stroke-width="3" stroke-linejoin="round"/>
+  <!-- right lens -->
+  <path d="M56 9 L84 9 Q90 9 90 14 L88 30 Q86 38 68 38 Q52 38 52 30 L52 14 Q52 9 56 9Z" fill="#FDF0EB" stroke="#E7511E" stroke-width="3" stroke-linejoin="round"/>
+  <!-- bridge — thick, flat -->
+  <path d="M40 16 L52 16" stroke="#E7511E" stroke-width="3" stroke-linecap="round"/>
+  <!-- left temple — exits top-left corner at angle -->
+  <path d="M2 14 Q0 12 0 15" stroke="#E7511E" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <!-- right temple -->
+  <path d="M90 14 Q96 12 96 15" stroke="#E7511E" stroke-width="3" stroke-linecap="round" fill="none"/>
+</svg>`},
+    ]
+  },
+
+  /* 4. Kolor oprawki — multi */
+  {
+    id:'kolor', ey:'Krok 4 z 6',
+    q:'Jaki klimat kolorystyczny lubisz?',
+    sub:'Możesz wybrać kilka — pokażemy Ci szerszy wybór.',
+    multi:true, cols:'color-grid',
+    opts:[
+      {v:'czarne',        l:'Czarne',        d:'Klasyk, zawsze pasuje',       swatch:'#1A1A1A'},
+      {v:'stonowane',     l:'Stonowane',     d:'Brąz, szylkret, granat, beż', swatch:'linear-gradient(135deg,#7B4F2E 0%,#C8A06A 50%,#2C3E6B 100%)'},
+      {v:'jasne',         l:'Jasne / nude',  d:'Kryształ, transparentne',     swatch:'linear-gradient(135deg,#E8D5C4 0%,#F5EEE8 50%,#FADADD 100%)'},
+      {v:'kolorowe',      l:'Kolorowe',      d:'Czerwień, zieleń, niebieski', swatch:'linear-gradient(135deg,#C0392B 0%,#27AE60 50%,#2980B9 100%)'},
+      {v:'metaliczne',    l:'Metaliczne',    d:'Złoto, srebro, gunmetal',     swatch:'linear-gradient(135deg,#C9A84C 0%,#D0D0D0 50%,#4A4A5A 100%)'},
+    ]
+  },
+
+  /* 5. Wada wzroku */
+  {
+    id:'wada', ey:'Krok 5 z 6',
+    q:'Jaką wadę wzroku korygujesz?',
+    sub:'Dzięki temu podpowiemy Ci odpowiedni typ soczewek okularowych — to ważniejsze niż sam kształt oprawki.',
+    multi:false, cols:'c2',
+    opts:[
+      {v:'krotko',  l:'Krótkowzroczność', d:'Widzę niewyraźnie w dal',          icon:'👁️'},
+      {v:'daleko',  l:'Dalekowzroczność', d:'Mam problem z bliżą',              icon:'🔭'},
+      {v:'astygm',  l:'Astygmatyzm',      d:'Obraz rozmazany lub zniekształcony',icon:'〰️'},
+      {v:'presbi',  l:'Presbyopia',       d:'Po 40-tce — trudność z czytaniem', icon:'📖'},
+      {v:'wielok',  l:'Kilka wad naraz',  d:'Np. krótko + astygmatyzm',         icon:'👓'},
+      {v:'nieznana',l:'Nie wiem',         d:'Nie mam jeszcze diagnozy',          icon:'❓'},
+    ]
+  },
+
+  /* 6. Budżet — multi, zakres scalany */
+  {
+    id:'budzet', ey:'Krok 6 z 6',
+    q:'Jaki budżet masz na oprawki?',
+    sub:'Możesz zaznaczyć kilka przedziałów — scalimy je w jeden zakres cenowy.',
+    multi:true, cols:'c2',
+    opts:[
+      {v:'0-100',   l:'Do 100 zł',      d:'Ekonomicznie i ze stylem',   svg:G.b100},
+      {v:'100-250', l:'100–250 zł',     d:'Dobry wybór marek Kodano',   svg:G.b250},
+      {v:'250-500', l:'250–500 zł',     d:'Markowe, wysokiej jakości',  svg:G.b500},
+      {v:'500plus', l:'Powyżej 500 zł', d:'Designerskie, premium',      svg:G.b500p},
+    ]
+  },
+];
+
+/* ═══════════════════════════════════════════════
+   URL BUILDER
+   Priorytety base URL (od najwyższego):
+   1. Zastosowanie specjalne (kierowca / komputer)
+   2. Dokładnie 1 kształt → podstrona kształtu
+   3. Płeć → podstrona płci
+   4. Fallback → główna kategoria
+
+   Kolor doklejany jako slug w ścieżce (potwierdzone):
+   /oprawka_czarny  /oprawka_brazowy  /oprawka_zloty
+   /oprawka_srebrny  /oprawka_rozowy  /oprawka_niebieski
+   /oprawka_czerwony  /oprawka_granatowy
+
+   Mapowanie quiz → kolory Kodano:
+   czarne     → oprawka_czarny
+   stonowane  → oprawka_brazowy + oprawka_granatowy (najpopularniejsze)
+   jasne      → oprawka_rozowy (najbliższy transparentnym/nude)
+   kolorowe   → oprawka_czerwony
+   metaliczne → oprawka_zloty + oprawka_srebrny
+
+   + ?price= zawsze na końcu jeśli wybrany budżet
+═══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════
+   MAPOWANIE KOLORÓW QUIZU → SLUGA KODANO
+   Potwierdzone URL-e z sidebar /okulary-korekcyjne/oprawka_czarny.html:
+   oprawka_czarny, oprawka_bordowy, oprawka_brazowy, oprawka_grafitowy,
+   oprawka_granatowy, oprawka_szary, oprawka_bezowy, oprawka_bialy,
+   oprawka_transparentny, oprawka_rozowy, oprawka_pomaranczowy,
+   oprawka_zielony, oprawka_zolty, oprawka_czerwony, oprawka_niebieski,
+   oprawka_fioletowy, oprawka_turkusowy, oprawka_srebrny, oprawka_zloty
+
+   havana i bursztynowy → łączymy z oprawka_brazowy (najbliższy slug)
+   miedziany            → łączymy z oprawka_zloty (brak własnego sluga)
+
+   Gdy kategoria ma kilka kolorów → łączymy slugi myślnikami,
+   np. oprawka_czarny-oprawka_grafitowy (Kodano obsługuje takie URL-e)
+═══════════════════════════════════════════════ */
+const COLOR_SLUG = {
+  czarne:     'oprawka_czarny-oprawka_grafitowy',
+  stonowane:  'oprawka_bordowy-oprawka_granatowy-oprawka_szary-oprawka_brazowy',
+  jasne:      'oprawka_bialy-oprawka_bezowy-oprawka_transparentny',
+  kolorowe:   'oprawka_pomaranczowy-oprawka_zielony-oprawka_zolty-oprawka_czerwony-oprawka_rozowy-oprawka_niebieski-oprawka_fioletowy-turkusowy_1',
+  metaliczne: 'oprawka_srebrny-oprawka_zloty',
+};
+
+function buildURL(A) {
+  const plec   = A.plec && A.plec.v;
+  /* zast now multi — check if any special use is selected */
+  const zastArr = A.zast || [];
+  const zastVals = zastArr.map ? zastArr.map(z=>z.v) : (zastArr.v ? [zastArr.v] : []);
+  const shapes  = A.ksztalt || [];
+
+  /* ── Kolor: multi → join all slugs, deduplicating ── */
+  const kolorArr = A.kolor || [];
+  const kolorVals = kolorArr.map ? kolorArr.map(k=>k.v) : (kolorArr.v ? [kolorArr.v] : []);
+  const allColorSlugs = [];
+  kolorVals.forEach(v => {
+    const slug = COLOR_SLUG[v] || '';
+    slug.split('-').forEach(s => { if (s && !allColorSlugs.includes(s)) allColorSlugs.push(s); });
+  });
+  const colorSlug = allColorSlugs.join('-');
+
+  /* ── Budżet: multi → merge to min–max range ── */
+  const budzetArr = A.budzet || [];
+  const budzetVals = budzetArr.map ? budzetArr.map(b=>b.v) : (budzetArr.v ? [budzetArr.v] : []);
+  const PRICE_MAP = {'0-100':[0.01,100],'100-250':[100,250],'250-500':[250,500],'500plus':[500,9999]};
+  const PRICE_FMT = v => v === Math.floor(v) ? v.toFixed(2) : v.toFixed(2);
+  let price = '';
+  if (budzetVals.length > 0) {
+    let minP = Infinity, maxP = -Infinity;
+    budzetVals.forEach(v => {
+      const range = PRICE_MAP[v];
+      if (range) { minP = Math.min(minP, range[0]); maxP = Math.max(maxP, range[1]); }
+    });
+    if (minP !== Infinity) price = PRICE_FMT(minP) + '-' + PRICE_FMT(maxP);
+  }
+
+  /* ── Slug płci ── */
+  const plecSlug = {damskie:'damskie-unisex', meskie:'meskie-unisex', dzieci:'dzieciece', unisex:''}[plec] || '';
+
+  /* ── Slug kształtu — bierzemy pierwszy wybrany ── */
+  const SHAPE_SLUG = {prostokat:'prostokatne', okragle:'okragle', owalne:'owalne', kocie:'kocie-oczy', aviator:'aviator', wayfarer:'wayfarer'};
+  const shapeSlug = shapes.map(s => SHAPE_SLUG[s.v] || '').filter(Boolean).join('-');
+
+  /* ── Złóż URL ── */
+  const segments = [plecSlug, shapeSlug, colorSlug].filter(Boolean);
+  let url;
+  if (segments.length > 0) {
+    url = 'https://kodano.pl/okulary-korekcyjne/' + segments.join('-') + '.html';
+  } else if (zastVals.includes('kierowca')) {
+    url = 'https://kodano.pl/okulary-dla-kierowcow.html';
+  } else if (zastVals.includes('komputer')) {
+    url = 'https://kodano.pl/okulary-do-komputera.html';
+  } else {
+    url = 'https://kodano.pl/okulary-korekcyjne.html';
+  }
+
+  return price ? url + '?price=' + price : url;
+}
+
+/* ═══════════════════════════════════════════════
+   LENS RECOMMENDATIONS
+   Oparte na zastosowaniu + wadzie wzroku
+═══════════════════════════════════════════════ */
+function getLensRecs(A) {
+  /* zast is now multi — normalize to array of values */
+  const zastArr = A.zast || [];
+  const zastVals = Array.isArray(zastArr) ? zastArr.map(z=>z.v) : (zastArr.v ? [zastArr.v] : []);
+  const has = v => zastVals.includes(v);
+  const wada = A.wada && A.wada.v;
+  const recs = [];
+
+  if (has('komputer')) {
+    recs.push({
+      text: `<strong>Soczewki z filtrem Blue Blocker</strong> — redukują niebieskie światło z ekranów, zmniejszają zmęczenie oczu przy wielogodzinnej pracy.`,
+      link: 'https://kodano.pl/okulary-do-komputera.html',
+      linkText: 'Zobacz okulary do komputera'
+    });
+  }
+
+  if (has('kierowca')) {
+    recs.push({
+      text: `<strong>Soczewki z powłoką antyrefleksyjną (AR)</strong> — eliminują odbicia od świateł nadjeżdżających aut, szczególnie nocą.`,
+      link: 'https://kodano.pl/okulary-dla-kierowcow.html',
+      linkText: 'Zobacz okulary dla kierowców'
+    });
+  }
+
+  if (wada === 'presbi' || wada === 'dal_i_bliz' || has('dal_i_bliz')) {
+    recs.push({
+      text: `<strong>Soczewki progresywne</strong> — korygujesz dal i bliż w jednej parze okularów, bez konieczności noszenia dwóch par. Idealne przy presbyopii i kombinowanych wadach.`,
+      link: 'https://kodano.pl/cennik-soczewek.html',
+      linkText: 'Cennik soczewek progresywnych'
+    });
+  }
+
+  if (wada === 'astygm' || wada === 'wielok') {
+    recs.push({
+      text: `<strong>Soczewki toryczne (cylindryczne)</strong> — specjalnie zaprojektowane do korekcji astygmatyzmu. Ważne, aby oprawka dobrze przylegała do nosa i nie zsuwała się.`,
+      link: 'https://kodano.pl/cennik-soczewek.html',
+      linkText: 'Cennik soczewek'
+    });
+  }
+
+  if (wada === 'krotko') {
+    recs.push({
+      text: `<strong>Soczewki wysokoindeksowe (1.6 lub 1.67)</strong> — przy krótkowzroczności powyżej –3D znacznie cieńsze i lżejsze niż standardowe. Szczególnie ważne przy mniejszych oprawkach.`,
+      link: 'https://kodano.pl/cennik-soczewek.html',
+      linkText: 'Porównaj soczewki'
+    });
+  }
+
+  if (wada === 'daleko') {
+    recs.push({
+      text: `<strong>Soczewki sferyczne lub asferyczne</strong> — przy dalekowzroczności soczewki asferyczne są cieńsze na brzegach i dają mniej zniekształceń. Warto też rozważyć powłokę AR.`,
+      link: 'https://kodano.pl/cennik-soczewek.html',
+      linkText: 'Sprawdź cennik'
+    });
+  }
+
+  if (has('sport')) {
+    recs.push({
+      text: `<strong>Soczewki poliwęglanowe lub Trivex</strong> — odporne na uderzenia, lżejsze od plastiku, z wbudowaną ochroną UV. Idealne do sportu i aktywności na zewnątrz.`,
+      link: 'https://kodano.pl/cennik-soczewek.html',
+      linkText: 'Dowiedz się więcej'
+    });
+  }
+
+  if (wada === 'nieznana') {
+    recs.push({
+      text: `<strong>Zacznij od badania wzroku</strong> — bez aktualnej recepty nie dobierzesz właściwych soczewek. W salonach KODANO Optyk badanie wzroku jest bezpłatne.`,
+      link: 'https://kodano.pl/stationary_stores.html',
+      linkText: 'Znajdź salon KODANO w swoim mieście'
+    });
+  }
+
+  if (recs.length === 0) {
+    recs.push({
+      text: `<strong>Soczewki jednogniskowe z powłoką AR</strong> — dobry wybór na co dzień. Powłoka antyrefleksyjna zwiększa komfort widzenia i zmniejsza odbicia.`,
+      link: 'https://kodano.pl/cennik-soczewek.html',
+      linkText: 'Sprawdź cennik soczewek'
+    });
+  }
+
+  return recs;
+}
+
+/* ═══════════════════════════════════════════════
+   STATE & RENDER
+═══════════════════════════════════════════════ */
+const A = {};
+let cur = 0;
+const TOTAL = STEPS.length;
+
+function render(i) {
+  document.getElementById('pbar').style.width = Math.round(i/TOTAL*100)+'%';
+  document.getElementById('ptx').textContent = i+' / '+TOTAL;
+  if (i >= TOTAL) { showResult(); return; }
+
+  const s = STEPS[i], isM = s.multi;
+  const sel = A[s.id] || (isM ? [] : null);
+
+  const optsH = s.opts.map(o => {
+    const on = isM ? sel.some(x=>x.v===o.v) : (sel&&sel.v===o.v);
+    let vis;
+    if (o.swatch) {
+      vis = `<div class="ov"><div class="swatch" style="background:${o.swatch}"></div></div>`;
+    } else if (o.svg) {
+      vis = `<div class="ov">${o.svg}</div>`;
+    } else {
+      vis = `<div class="ov" style="font-size:32px;line-height:1">${o.icon}</div>`;
+    }
+    const colorCls = o.swatch ? ' color-opt' : '';
+    return `<button class="opt${colorCls}${on?' sel':''}" onclick="pick(${i},${JSON.stringify(o).replace(/"/g,'&quot;')},${isM})" aria-pressed="${on}">${vis}<span class="ol">${o.l}</span><span class="od">${o.d}</span></button>`;
+  }).join('');
+
+  const ok = isM ? (A[s.id]&&A[s.id].length>0) : !!A[s.id];
+  document.getElementById('sc').innerHTML = `
+    <div class="step">
+      <div class="ey">${s.ey}</div>
+      <h2 class="sq">${s.q}</h2>
+      <p class="ss">${s.sub}</p>
+      ${isM?'<div class="mb">Możesz wybrać kilka</div>':''}
+      <div class="opts ${s.cols}" role="group">${optsH}</div>
+      <div class="nav">
+        ${i>0?`<button class="bb" onclick="back()">← Wróć</button>`:'<span></span>'}
+        <button class="bn" onclick="next()" ${!ok?'disabled':''}>
+          ${i===TOTAL-1?'Pokaż wyniki →':'Dalej →'}
+        </button>
+      </div>
+    </div>`;
+}
+
+function pick(si, o, isM) {
+  const id = STEPS[si].id;
+  if (isM) {
+    if (!A[id]) A[id]=[];
+    const idx = A[id].findIndex(x=>x.v===o.v);
+    idx>-1 ? A[id].splice(idx,1) : A[id].push(o);
+  } else { A[id]=o; }
+  render(cur);
+}
+
+function next() { cur++; render(cur); scrollTo({top:0,behavior:'smooth'}); }
+function back() { if(cur>0){cur--;render(cur);scrollTo({top:0,behavior:'smooth'});} }
+
+function showResult() {
+  document.getElementById('pbar').style.width='100%';
+  document.getElementById('ptx').textContent=TOTAL+' / '+TOTAL;
+
+  const url = buildURL(A);
+  const lensRecs = getLensRecs(A);
+
+  const tags = [];
+  STEPS.forEach(s=>{ if(!A[s.id])return; if(s.multi)A[s.id].forEach(o=>tags.push(o.l)); else tags.push(A[s.id].l); });
+
+  /* ── Lens recs HTML ── */
+  const lensHTML = lensRecs.map(r=>`
+    <div class="lens-item">
+      <div class="lens-dot"></div>
+      <div class="lens-text">${r.text} <a href="${r.link}" target="_blank" rel="noopener">${r.linkText} →</a></div>
+    </div>`).join('');
+
+  document.getElementById('sc').innerHTML = `
+    <div class="res">
+      <div class="rh">
+        <div class="re">🎉</div>
+        <h2 class="rt">Twoje okulary czekają!</h2>
+        <p class="rs">Kliknij poniżej — otworzymy sklep Kodano.pl z wynikami dopasowanymi do Twoich odpowiedzi.</p>
+        <div class="rtags">${tags.map(t=>`<span class="rtag">${t}</span>`).join('')}</div>
+        <a class="cta" href="${url}" target="_blank" rel="noopener">Zobacz dopasowane oprawki →</a>
+      </div>
+      <div class="lens-card">
+        <div class="lens-title">🔬 Rekomendacja soczewek okularowych</div>
+        <div class="lens-items">${lensHTML}</div>
+      </div>
+      <button class="br" onclick="restart()">↺ Zacznij od nowa</button>
+    </div>`;
+}
+
+function restart() { Object.keys(A).forEach(k=>delete A[k]); cur=0; render(0); scrollTo({top:0,behavior:'smooth'}); }
+
+render(0);
+</script>
+</body>
+</html>
